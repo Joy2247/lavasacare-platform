@@ -1,0 +1,90 @@
+// LavasaCare - Local Healthcare Services Platform
+// Data entities per SRS Section 6.1
+// NOTE: This prototype stores demo submissions locally. Production requires a secure backend.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// FR-05 / FR-06: Appointment Requests with status workflow
+model AppointmentRequest {
+  id            String   @id @default(cuid())
+  ref           String   @unique // unique reference number e.g. LVC-AP-XXXXXX
+  fullName      String
+  phone         String
+  email         String?
+  specialty     String
+  providerId    String
+  providerName  String
+  doctorId      String?  // optional doctor preference (demo data id)
+  doctorName    String?
+  preferredDate String // ISO date string, validated not in past
+  preferredTime String // slot label e.g. "10:00 - 10:30"
+  notes         String?
+  status        String   @default("Submitted") // Submitted | Under Review | Confirmed | Declined | Reschedule Requested | Cancelled | Completed
+  statusNote    String? // audit note of last status change
+  changedBy     String? // audit: actor of last change
+  changedAt     DateTime @default(now()) // audit: time of last change
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// FR-08: Medicine Delivery Request routed to participating pharmacy (demo)
+model MedicineRequest {
+  id           String   @id @default(cuid())
+  ref          String   @unique
+  productName  String
+  contactName  String
+  phone        String
+  deliveryArea String
+  pinCode      String?
+  pharmacyId   String? // assigned pharmacy (demo)
+  pharmacyName String?
+  notes        String?
+  status       String   @default("Submitted") // Submitted | Assigned to Pharmacy | Under Review | Ready for Pickup | Out for Delivery | Confirmed | Declined | Cancelled | Completed
+  statusNote   String?
+  changedBy    String?
+  changedAt    DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// FR-10: Health Checkup Package enquiry / booking request
+model PackageEnquiry {
+  id          String   @id @default(cuid())
+  ref         String   @unique
+  packageId   String
+  packageName String
+  providerId  String
+  providerName String
+  fullName    String
+  phone       String
+  email       String?
+  preferredDate String?
+  message     String?
+  status      String   @default("Submitted")
+  statusNote  String?
+  changedBy   String?
+  changedAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// FR-15: Contact and Support messages
+model ContactMessage {
+  id        String   @id @default(cuid())
+  ref       String   @unique
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("Open") // Open | In Progress | Resolved
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

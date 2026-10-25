@@ -1,0 +1,366 @@
+SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+Project: LavasaCare - Local Healthcare Services Platform
+Version: 1.0
+Date: 21 October 2026
+Status: Initial requirements draft for review
+
+1. INTRODUCTION
+
+1.1 Purpose
+This document defines the software requirements for LavasaCare, a web-based platform intended to help residents and visitors in Lavasa, Maharashtra discover participating healthcare providers and request services. It also defines requirements for a hospital/provider administration interface.
+
+1.2 Scope
+LavasaCare will provide a single point of access to:
+- Appointment requests and doctor availability.
+- Medicine delivery requests through participating pharmacies.
+- Health checkup package discovery and enquiries.
+- Hospital and clinic information, including doctor and care-team profiles.
+- Hospital-reported bed availability.
+- Service coverage information.
+- Ambulance contact and, if a dispatch partner is integrated, ambulance booking.
+- Contact details and map/directions links.
+- A provider administration dashboard for reviewing requests and maintaining authorised service information.
+
+The first deliverable is a front-end prototype implemented with HTML, CSS and JavaScript. The prototype demonstrates the user interface and some browser-local interactions. It is not a production healthcare system and does not transmit requests to real providers. Production functionality requires a secure backend, shared database, provider onboarding and operational agreements.
+
+1.3 Intended Audience
+- Project owner and stakeholders.
+- Patients, residents and visitors.
+- Hospital and clinic administrators.
+- Doctors and other healthcare professionals.
+- Participating pharmacies and diagnostic laboratories.
+- Ambulance operators.
+- Software developers, testers and maintenance personnel.
+
+1.4 Definitions
+- Patient/User: A person using LavasaCare to discover services or submit a request.
+- Provider: A participating hospital, clinic, pharmacy, diagnostic laboratory or ambulance operator.
+- Administrator: An authorised person who manages provider information and service requests.
+- Appointment request: A request that is not confirmed until the provider accepts it.
+- Live availability: Information obtained from an authorised provider system or a verified, timestamped provider update.
+- Prototype/demo data: Sample information used for demonstration and not suitable for real medical or operational decisions.
+
+1.5 Intended Operating Environment
+- Modern desktop and mobile browsers, including current versions of Chrome, Edge, Firefox and Safari.
+- Responsive layouts for mobile phones, tablets and desktop computers.
+- Initial front end: HTML5, CSS3 and JavaScript.
+- Production deployment: HTTPS-enabled hosting and a secure backend/database.
+- Target service area: Lavasa, Maharashtra, with nearby areas added only after provider coverage is confirmed.
+
+1.6 Design Theme
+The website shall use the following palette:
+- Primary blue: #008DDA
+- Cyan: #41C9E2
+- Mint: #ACE2E1
+- Warm cream: #F7EEDD
+
+The interface should be clean, accessible, responsive and easy to use.
+
+2. OVERALL DESCRIPTION
+
+2.1 Product Perspective
+LavasaCare is a local healthcare directory and service-request platform. It is not itself a hospital, pharmacy, medical practice or emergency dispatch centre. It will connect users to participating providers and show only information that providers have authorised for publication.
+
+2.2 Product Functions
+The system is expected to:
+- Display a directory of participating providers and their services.
+- Let users search for doctors, specialties, facilities and services.
+- Accept appointment requests.
+- Show doctor schedules when verified data is available.
+- Accept medicine delivery enquiries and route them to participating pharmacies.
+- Display health checkup packages and allow users to enquire or request a booking.
+- Display timestamped bed information supplied by authorised hospitals.
+- Show service-area information.
+- Provide map and directions links to verified facilities.
+- Provide emergency contact information and, if integrated, an ambulance request workflow.
+- Allow authorised provider staff to review and manage requests and update service information.
+- Provide clear request statuses and confirmations.
+- Display clear notices when data is unavailable, unverified or not live.
+
+2.3 User Classes
+A. Public visitor/patient
+Can browse public provider information, search services, view packages and submit permitted service requests.
+
+B. Provider staff
+Can sign in to review requests assigned to their organisation, update schedules and service information, and change request status according to permissions.
+
+C. Provider administrator
+Can manage staff access, provider details, operating hours, service coverage and authorised data.
+
+D. Platform administrator
+Can onboard providers, manage platform configuration, review audit records and manage access. This role must not automatically grant unnecessary access to sensitive clinical information.
+
+2.4 Assumptions and Dependencies
+- Local providers agree to participate and provide accurate information.
+- Providers designate staff responsible for keeping their information current.
+- Appointment and bed availability integrations depend on provider systems or an agreed manual update process.
+- Pharmacy fulfilment depends on participating pharmacies and applicable prescription and dispensing rules.
+- Ambulance booking depends on a verified dispatch partner and an operational agreement.
+- Map links depend on the availability of a third-party map service.
+- Internet access is required for online functionality.
+- A secure backend and database are required for cross-device requests and real provider workflows.
+
+2.5 Constraints
+- The initial HTML/CSS/JavaScript prototype has no secure server-side database or production authentication.
+- Browser-local demo data is not shared between users or devices.
+- Sample doctor profiles, bed counts, prices and provider details must not be represented as real.
+- The platform must not diagnose conditions, prescribe medicines or replace professional medical advice.
+- The platform must not imply that a booking, medicine order or ambulance request is confirmed until the responsible provider confirms it.
+
+3. FUNCTIONAL REQUIREMENTS
+
+FR-01: Home Page
+The system shall display the LavasaCare name, service area, main services, search field, emergency guidance and navigation to major sections.
+
+FR-02: Search
+The system shall allow users to search provider names, specialties, services, packages and facilities. Search results shall be relevant to the entered query. If no results are found, the system shall show a helpful message.
+
+FR-03: Provider Directory
+The system shall display participating hospitals, clinics, pharmacies, laboratories and ambulance providers. Each provider record shall include verified name, address, contact details, operating hours, services and map link where available.
+
+FR-04: Doctor Profiles
+The system shall display doctor name, verified qualifications, specialty, affiliated facility, consultation arrangements and availability when supplied by the provider. The system shall not publish unverified profiles as real doctors.
+
+FR-05: Appointment Requests
+The system shall allow users to select a specialty, participating provider or doctor, preferred date and time, and enter required contact information. The system shall validate required fields and prevent dates in the past. The system shall create a request with a unique reference number in the production version.
+
+FR-06: Appointment Status
+The system shall support statuses such as Submitted, Under Review, Confirmed, Declined, Reschedule Requested, Cancelled and Completed. Only authorised provider staff shall confirm or decline requests. The user shall be informed that a submitted request is not a confirmed appointment.
+
+FR-07: Doctor Availability
+The system shall show available slots only when received from an authorised provider source. Availability data shall include a last-updated timestamp. If live availability is unavailable, the system shall display “Contact provider to confirm” or equivalent wording.
+
+FR-08: Medicine Delivery Request
+The system shall allow users to submit a medicine/product name, contact method, delivery area and other minimum necessary information. The request shall be routed to a participating pharmacy in the production system. The system shall not claim that medicine is in stock or an order is accepted before pharmacy confirmation.
+
+FR-09: Prescription Handling
+The production system shall support the participating pharmacy's compliant prescription verification workflow where applicable. Prescription medicines shall not be dispensed without required verification. Prescription images and health information shall be protected and accessible only to authorised parties. The initial prototype shall not collect prescription uploads.
+
+FR-10: Health Checkup Packages
+The system shall list packages with verified provider, package name, included tests, eligibility/limitations, price, preparation instructions where supplied, booking method and last-updated information. Users shall be able to submit an enquiry or booking request. Medical suitability shall be determined by an appropriate healthcare professional.
+
+FR-11: Bed Availability
+The system shall display hospital-reported bed availability only when supplied by an authorised source. Data shall distinguish bed types, such as general and ICU, and include a timestamp and reporting facility. Stale or unavailable data shall be labelled clearly. The system shall advise users to call the facility to confirm before travelling.
+
+FR-12: Service Coverage
+The system shall show service coverage areas for each provider and service type. Users shall be able to search by area or PIN code where coverage data exists. The system shall not promise coverage if it has not been verified.
+
+FR-13: Map and Directions
+The system shall provide a map search or directions link for each verified facility. The system shall make clear that third-party map results do not establish provider affiliation, operating status or clinical capability.
+
+FR-14: Ambulance Information and Booking
+The system shall display verified emergency guidance and contact information. In the initial version, a call link may be provided. A production booking feature shall only be enabled after a verified dispatch provider is integrated. The system shall capture only necessary dispatch details, provide clear submission status and display confirmation only after the dispatcher accepts the request.
+
+FR-15: Contact and Support
+The system shall display verified platform and provider contact information. A contact form shall validate required fields. In production, messages shall be sent through a secure backend to an authorised support inbox or ticketing system.
+
+FR-16: Provider Admin Login
+The production system shall require authentication for provider administration. Access shall be restricted by organisation and role. The browser-only demo dashboard is not a secure login and must not be used for real patient data.
+
+FR-17: Admin Request Management
+Authorised staff shall be able to view requests assigned to their organisation, search/filter them, view necessary details and update status. Changes shall record the actor and timestamp in an audit log.
+
+FR-18: Provider Data Management
+Authorised staff shall be able to update provider contact details, operating hours, services, doctor schedules, package information, service areas and bed reports according to their permissions. Published information shall show update timestamps where relevant.
+
+FR-19: Notifications
+The production system should send appropriate confirmation or status notifications by email, SMS or another approved channel. Notifications shall not reveal unnecessary sensitive health information. The system shall not claim that a notification was sent unless the delivery service reports success.
+
+FR-20: Audit and Accountability
+The production system shall record security-relevant actions, including staff login events, request status changes and edits to provider information. Audit records shall be protected from unauthorised alteration.
+
+FR-21: Demo Data Labelling
+Any sample profiles, packages, capacity figures or other fictional values shall be labelled as demonstration data. Production deployment shall remove or replace all placeholders before launch.
+
+4. EXTERNAL INTERFACE REQUIREMENTS
+
+4.1 User Interface
+- Responsive navigation and service cards.
+- Accessible forms with labels and validation messages.
+- Clear status indicators and explanatory notices.
+- Mobile-friendly buttons and readable text.
+- Consistent use of the specified colour palette.
+- Emergency information visible without implying the site is a dispatch centre.
+
+4.2 Software Interfaces
+The production system may integrate with:
+- A hosted database and authentication provider, such as Supabase or Firebase, or a custom backend.
+- Email/SMS notification services.
+- A map service such as Google Maps or OpenStreetMap-based services.
+- Provider appointment systems, where APIs or approved integrations are available.
+- Pharmacy order/stock systems, where supported.
+- Hospital capacity systems or authorised manual reporting.
+- An ambulance dispatch provider API or approved dispatch workflow.
+
+No provider API or integration shall be assumed to exist until confirmed with the provider.
+
+4.3 Communications
+- Production traffic shall use HTTPS.
+- API credentials and service secrets shall never be embedded in public front-end JavaScript.
+- Requests shall be validated server-side.
+- External integration failures shall be handled safely and visibly.
+
+5. NON-FUNCTIONAL REQUIREMENTS
+
+NFR-01: Usability
+The main service paths should be understandable to non-technical users. Forms should use plain language and explain the next step.
+
+NFR-02: Accessibility
+The interface should target WCAG 2.2 AA where feasible, including keyboard navigation, visible focus, adequate contrast, semantic headings, accessible labels and status announcements.
+
+NFR-03: Performance
+The public pages should load efficiently on typical mobile connections. Images and scripts should be optimised. Production performance targets shall be agreed before launch.
+
+NFR-04: Availability
+The production hosting and backend availability targets shall be agreed with the project owner. The site shall show a safe message when an external provider system is unavailable.
+
+NFR-05: Security
+The production system shall use secure authentication, role-based access control, server-side validation, rate limiting, secure session handling, backups, monitoring and protection against common web vulnerabilities. Administrative actions shall be auditable.
+
+NFR-06: Privacy
+Only necessary personal information shall be collected. Users shall receive a clear privacy notice and appropriate consent options. Data retention and deletion procedures shall be documented. Sensitive data shall not be placed in URLs, public logs or public browser storage.
+
+NFR-07: Data Accuracy
+Provider details and operational information shall have an identified source and update process. Availability data shall be timestamped. Expired or stale information shall be marked or hidden according to agreed rules.
+
+NFR-08: Reliability
+A failed request shall not be presented as successful. The system shall provide a reference number after a request is successfully stored and distinguish submission from provider confirmation.
+
+NFR-09: Maintainability
+Code shall be organised, documented and version-controlled. Configuration shall be separated from business logic. Changes shall be tested before deployment.
+
+NFR-10: Compatibility
+The public site shall support current major desktop and mobile browsers. Critical workflows shall be tested at common screen sizes.
+
+NFR-11: Scalability
+The backend design should allow additional providers, service areas and users to be added without redesigning the entire system.
+
+NFR-12: Legal and Healthcare Compliance
+Before launch, the project owner shall obtain appropriate review of Indian privacy and data-protection obligations, healthcare advertising and professional rules, pharmacy and prescription requirements, accessibility, consumer protection and any applicable emergency-service requirements. This SRS is not legal advice.
+
+6. DATA REQUIREMENTS
+
+6.1 Main Data Entities
+- User: user ID, contact details, role and consent records as necessary.
+- Provider: provider ID, type, verified name, address, contact details, service area, operating hours and status.
+- Doctor: doctor ID, verified profile, specialty, qualifications, provider affiliation and schedule.
+- Appointment: request ID, user contact, provider, specialty, preferred slot, status, timestamps and audit metadata.
+- Pharmacy Request: request ID, product details, delivery area, contact details, status and pharmacy assignment.
+- Package: package ID, provider, name, included tests, price, terms and update timestamp.
+- Bed Report: provider, bed type, available count, total count, reporting time and reporting staff/source.
+- Coverage Area: provider, service type, geographic area or PIN codes and verification status.
+- Ambulance Request: request ID, contact details, necessary pickup/location data, dispatch status and provider reference, if the feature is enabled.
+- Notification: notification type, destination reference, delivery status and timestamp.
+- Audit Event: actor, action, affected record, timestamp and relevant security metadata.
+
+6.2 Data Validation
+- Required fields shall be validated on both client and server.
+- Phone numbers, dates, counts and identifiers shall be validated.
+- Available bed counts shall not exceed total counts.
+- Appointment dates shall follow the configured booking policy.
+- Provider content shall be verified before publication.
+- Users shall not be able to change their role or access another provider's records by modifying client-side values.
+
+6.3 Data Retention
+Retention periods shall be set by the project owner following applicable legal and operational review. The system shall support appropriate deletion, anonymisation or archival processes.
+
+7. SECURITY, PRIVACY AND SAFETY
+
+- Use HTTPS for all production pages and APIs.
+- Keep privileged keys on the server, not in client-side JavaScript.
+- Enforce authentication and organisation-level access control for admin data.
+- Restrict access to patient contact information to staff who need it.
+- Do not store real patient requests in sessionStorage or localStorage as the system of record.
+- Use backups, monitoring and an incident-response process.
+- Collect explicit consent where required.
+- Do not collect unnecessary medical history.
+- Do not display confidential patient information on public pages.
+- Do not represent unconfirmed appointments, orders, beds or ambulance dispatches as confirmed.
+- Display emergency guidance and never make the site a prerequisite for seeking urgent care.
+
+8. DEPLOYMENT AND IMPLEMENTATION PLAN
+
+Phase 1: Prototype
+- Deliver responsive HTML/CSS/JavaScript interface.
+- Test search, forms, navigation, map search links and demo admin interactions.
+- Use only clearly labelled demo information.
+
+Phase 2: Provider onboarding
+- Identify participating hospitals, clinics, pharmacies, labs and ambulance providers.
+- Obtain verified service details, contacts, service coverage and permission to publish data.
+- Agree on who updates schedules and bed reports, and how often.
+
+Phase 3: Backend and authentication
+- Select a backend/database platform.
+- Create database schema and secure APIs.
+- Implement patient and provider authentication as required.
+- Configure role-based access control, audit logs and backups.
+- Replace browser-only demo storage with server-side persistence.
+
+Phase 4: Core integrations
+- Connect appointment requests and provider review.
+- Add verified doctor schedules and notifications.
+- Connect package enquiry and pharmacy request workflows.
+- Add authorised, timestamped bed reports.
+- Add provider map details and coverage data.
+
+Phase 5: Ambulance integration
+- Verify a dispatch partner and operational workflow.
+- Test location capture, request delivery, acceptance confirmation and failure handling.
+- Do not enable online dispatch until the integration has been tested and approved.
+
+Phase 6: Testing and launch
+- Conduct functional, usability, accessibility, security, privacy and integration testing.
+- Verify all provider details and remove placeholders.
+- Train provider staff and publish support procedures.
+- Launch gradually and monitor errors, availability and request handling.
+
+9. ACCEPTANCE CRITERIA
+
+AC-01: A user can navigate to all major service sections on desktop and mobile.
+AC-02: Search finds matching service cards and provides a no-results message when appropriate.
+AC-03: Appointment forms validate required fields and prevent past dates.
+AC-04: Production appointment requests are saved to the backend and receive a unique reference.
+AC-05: Appointment status is not shown as confirmed until authorised provider confirmation.
+AC-06: Doctor availability displays a source/update time or clearly states that it must be confirmed.
+AC-07: Medicine requests reach the assigned pharmacy in production and show an honest status.
+AC-08: Package information displays verified provider details, inclusions, prices and terms when available.
+AC-09: Bed reports show the reporting facility, bed type and update time; stale/unavailable data is clearly marked.
+AC-10: Map links open a relevant search or verified provider location.
+AC-11: Ambulance booking is disabled until a verified dispatch integration is available; emergency contact links remain clear.
+AC-12: Provider administrators must authenticate and can access only authorised records.
+AC-13: Demo data is clearly labelled and removed or replaced before production launch.
+AC-14: The system does not expose privileged API keys or allow client-side role changes to grant access.
+AC-15: Privacy notices, access controls, backups and operational procedures are reviewed before handling real patient information.
+
+10. OUT OF SCOPE FOR THE INITIAL PROTOTYPE
+
+- Medical diagnosis, treatment recommendations or prescription generation.
+- Processing payments or insurance claims.
+- Direct integration with hospital electronic health record systems.
+- Live pharmacy inventory or fulfilment.
+- Real-time bed reservations or admission guarantees.
+- Ambulance dispatch without an approved provider integration.
+- Storage of clinical records or prescription images.
+- Secure multi-organisation production administration.
+- Guarantees that a provider is open, available or affiliated based solely on map search results.
+
+11. RISKS AND OPEN QUESTIONS
+
+- Which hospitals and clinics in and around Lavasa have agreed to participate?
+- Who owns and operates the LavasaCare platform?
+- What provider contact details and service coverage can be verified?
+- Will providers supply APIs, or will staff update availability manually?
+- What booking and cancellation policies will providers use?
+- Which pharmacies will handle medicine requests and prescription verification?
+- Who will maintain package pricing and test information?
+- Which ambulance provider, if any, can support a booking integration?
+- Which database, hosting and notification services will be selected?
+- What privacy, security and legal review is required before launch?
+- Who will provide support and resolve missed or delayed requests?
+
+12. APPROVAL
+
+This document is an initial SRS draft. The project owner and participating healthcare providers should review and approve the requirements, operational responsibilities, data sources, security controls and acceptance criteria before production development.
+
+End of document.

@@ -1,0 +1,11 @@
+import { PrismaClient } from '@prisma/client';
+const db = new PrismaClient();
+await db.appointmentRequest.deleteMany({ where: { OR: [{ fullName: 'Test User' }, { fullName: 'Browser Tester' }] } });
+await db.medicineRequest.deleteMany({ where: { contactName: 'Test' } });
+await db.packageEnquiry.deleteMany({ where: { OR: [{ fullName: 'Test' }, { fullName: 'E2E Tester' }] } });
+await db.contactMessage.deleteMany({ where: { name: 'Test' } });
+console.log('appointments:', await db.appointmentRequest.count());
+console.log('medicine:', await db.medicineRequest.count());
+console.log('enquiries:', await db.packageEnquiry.count());
+console.log('messages:', await db.contactMessage.count());
+await db.$disconnect();
